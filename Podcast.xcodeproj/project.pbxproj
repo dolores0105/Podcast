@@ -19,6 +19,8 @@
 		397C1514280EB50400D48E9D /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C1513280EB50400D48E9D /* HomeTableViewCell.swift */; };
 		397C1517280EB6EA00D48E9D /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C1516280EB6EA00D48E9D /* UIFont+Extension.swift */; };
 		397C151A280EE3F800D48E9D /* KingFisherWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C1519280EE3F800D48E9D /* KingFisherWrapper.swift */; };
+		397C154D280FB09A00D48E9D /* EpisodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C154C280FB09A00D48E9D /* EpisodeViewController.swift */; };
+		397C154F280FEAEA00D48E9D /* EpisodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C154E280FEAEA00D48E9D /* EpisodeViewModel.swift */; };
 		A75B51194B16A2660EEE0519 /* Pods_Podcast.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131D87ACFB704A868D0660F4 /* Pods_Podcast.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		397C1513280EB50400D48E9D /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		397C1516280EB6EA00D48E9D /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		397C1519280EE3F800D48E9D /* KingFisherWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KingFisherWrapper.swift; sourceTree = "<group>"; };
+		397C154C280FB09A00D48E9D /* EpisodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewController.swift; sourceTree = "<group>"; };
+		397C154E280FEAEA00D48E9D /* EpisodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodeViewModel.swift; sourceTree = "<group>"; };
 		952DA582B6E09C990BE5047A /* Pods-Podcast.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcast.debug.xcconfig"; path = "Target Support Files/Pods-Podcast/Pods-Podcast.debug.xcconfig"; sourceTree = "<group>"; };
 		C8F580FE61826708D25F2376 /* Pods-Podcast.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Podcast.release.xcconfig"; path = "Target Support Files/Pods-Podcast/Pods-Podcast.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				397C14B5280BF36200D48E9D /* HomeViewController.swift */,
+				397C154C280FB09A00D48E9D /* EpisodeViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				397C1511280E680800D48E9D /* HomeViewModel.swift */,
+				397C154E280FEAEA00D48E9D /* EpisodeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -283,7 +289,9 @@
 				397C14CB280C08C300D48E9D /* FeedParser.swift in Sources */,
 				397C1512280E680800D48E9D /* HomeViewModel.swift in Sources */,
 				397C1514280EB50400D48E9D /* HomeTableViewCell.swift in Sources */,
+				397C154F280FEAEA00D48E9D /* EpisodeViewModel.swift in Sources */,
 				397C151A280EE3F800D48E9D /* KingFisherWrapper.swift in Sources */,
+				397C154D280FB09A00D48E9D /* EpisodeViewController.swift in Sources */,
 				397C14B6280BF36200D48E9D /* HomeViewController.swift in Sources */,
 				397C14CD280C09CA00D48E9D /* DataStructure.swift in Sources */,
 				397C14B2280BF36200D48E9D /* AppDelegate.swift in Sources */,

@@ -8,8 +8,10 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    // MARK: - Property
     private var viewModel: HomeViewModel = HomeViewModel()
+    
+    // MARK: - UI
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .white
@@ -20,6 +22,7 @@ class HomeViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configTableView()
@@ -27,6 +30,7 @@ class HomeViewController: UIViewController {
         viewModel.delegate = self
     }
     
+    // MARK: - Private Function
     private func configTableView() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -35,6 +39,7 @@ class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let episodeItems = viewModel.episodeItems else { return 0 }
@@ -46,11 +51,13 @@ extension HomeViewController: UITableViewDataSource {
               let episodesItem = viewModel.episodeItems?[indexPath.row] else {
                   return UITableViewCell()
               }
+        cell.selectionStyle = .none
         cell.reloadCell(imgString: episodesItem.epImgString, title: episodesItem.epTitle, pubDate: episodesItem.pubDate)
         return cell
     }
 }
 
+// MARK: - UITableViewDelegate
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         200
@@ -65,8 +72,14 @@ extension HomeViewController: UITableViewDelegate {
         headerView.contentMode = .scaleAspectFill
         return headerView
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let episodeVC = EpisodeViewController(viewModel: .init(podcastTitle: viewModel.podcast?.podcastTitle, episodeDetail: viewModel.episodeItems?[indexPath.row]))
+        navigationController?.pushViewController(episodeVC, animated: true)
+    }
 }
 
+// MARK: - ParseFeedDelegate
 extension HomeViewController: ParseFeedDelegate {
     func updateFeedData() {
         DispatchQueue.main.async {

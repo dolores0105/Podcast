@@ -13,16 +13,19 @@ protocol ParseFeedDelegate: AnyObject {
 }
 
 class HomeViewModel {
+    // MARK: - Properties
     var podcast: Podcast?
     var episodeItems: [Episode]?
     private var feedParser: FeedParser?
     
     weak var delegate: ParseFeedDelegate?
     
+    // MARK: - Initializer
     init(feedParser: FeedParser = FeedParser()) {
         self.feedParser = feedParser
     }
     
+    // MARK: - Function
     func parseFeed() {
         feedParser?.parseFeed(feedUrl: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss") { [weak self] (podcast, episodeItems) in
             guard let self = self else { return }
@@ -33,7 +36,6 @@ class HomeViewModel {
     }
     
     // MARK: - Private Function
-    
     private func covertFormatInEpisodeItems(_ episodeItems: [Episode]) -> [Episode] {
         return episodeItems.map {
             Episode(epTitle: $0.epTitle,
