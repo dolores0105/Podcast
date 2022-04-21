@@ -59,6 +59,7 @@ class EpisodeViewController: UIViewController {
         let button = UIButton()
         let largeConfig = UIImage.SymbolConfiguration(pointSize: 160, weight: .bold, scale: .large)
         button.setImage(UIImage(systemName: "play.circle", withConfiguration: largeConfig), for: .normal)
+        button.addTarget(self, action: #selector(tapPlay), for: .touchUpInside)
         return button
     }()
     
@@ -82,13 +83,14 @@ class EpisodeViewController: UIViewController {
     // MARK: - Private Function
     private func loadDetails() {
         guard let viewModel = viewModel,
-              let episodeDetail = viewModel.episodeDetail else {
+              let episodeItems = viewModel.episodeItems,
+              let episodeIndex = viewModel.episodeIndex else {
                   return
               }
-        episodeImageView.loadImage(episodeDetail.epImgString)
+        episodeImageView.loadImage(episodeItems[episodeIndex].epImgString)
         podcastTitleLabel.text = viewModel.podcastTitle
-        episodeTitleLabel.text = episodeDetail.epTitle
-        descriptionTextView.text = episodeDetail.description
+        episodeTitleLabel.text = episodeItems[episodeIndex].epTitle
+        descriptionTextView.text = episodeItems[episodeIndex].description
     }
     
     private func configViews() {
@@ -136,5 +138,11 @@ class EpisodeViewController: UIViewController {
             make.height.width.equalTo(160)
             make.bottom.equalToSuperview()
         }
+    }
+    
+    //MARK: - Target Action
+    @objc func tapPlay(_ sender: UIButton) {
+        let playerVC = PlayerViewController(viewModel: .init(episodeItems: viewModel?.episodeItems ?? [], currentEpIndex: viewModel?.episodeIndex ?? 0))
+        navigationController?.pushViewController(playerVC, animated: true)
     }
 }

@@ -10,10 +10,12 @@ import Foundation
 class EpisodeViewModel {
     //MARK: - Properties
     var podcastTitle: String?
-    var episodeDetail: Episode?
+    var episodeItems: [Episode]?
+    var episodeIndex: Int?
     
-    init(podcastTitle: String?, episodeDetail: Episode?) {
+    init(podcastTitle: String?, episodeItems: [Episode]?, episodeIndex: Int?) {
         self.podcastTitle = podcastTitle
-        self.episodeDetail = episodeDetail
+        self.episodeItems = episodeItems
+        self.episodeIndex = episodeIndex
     }
 }

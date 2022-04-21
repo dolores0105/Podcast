@@ -74,7 +74,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let episodeVC = EpisodeViewController(viewModel: .init(podcastTitle: viewModel.podcast?.podcastTitle, episodeDetail: viewModel.episodeItems?[indexPath.row]))
+        let episodeVC = EpisodeViewController(viewModel: .init(podcastTitle: viewModel.podcast?.podcastTitle, episodeItems: viewModel.episodeItems, episodeIndex: Int(indexPath.row)))
         navigationController?.pushViewController(episodeVC, animated: true)
     }
 }
