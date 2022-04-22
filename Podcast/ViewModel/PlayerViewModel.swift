@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-protocol PodcastPlayerProtocol: AnyObject {
+protocol PodcastPlayerDelegate: AnyObject {
     func updateCurrentPlayingProgess(_ value: Float)
     func updateCurrentEpDetails(title: String, imgUrlString: String)
     func updateState(_ playing: Bool)
@@ -27,14 +27,13 @@ class PlayerViewModel {
     }
     
     private var timeObserverToken: Any?
-    weak var delegate: PodcastPlayerProtocol?
+    weak var delegate: PodcastPlayerDelegate?
     
     // MARK: - Initializer
     init(episodeItems: [Episode], currentEpIndex: Int) {
         self.episodeItems = episodeItems
         self.currentEpIndex = currentEpIndex
         setupPlayer()
-        
     }
     
     deinit {

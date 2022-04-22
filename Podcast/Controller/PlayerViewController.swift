@@ -170,8 +170,8 @@ class PlayerViewController: UIViewController {
     }()
 }
 
-// MARK: - PodcastPlayerProtocol
-extension PlayerViewController: PodcastPlayerProtocol {
+// MARK: - PodcastPlayerDelegate
+extension PlayerViewController: PodcastPlayerDelegate {
     func updateCurrentPlayingProgess(_ value: Float) {
         progressBar.value = value
     }

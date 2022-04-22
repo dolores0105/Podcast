@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ParseFeedDelegate: AnyObject {
+protocol UpdateParserDataDelegate: AnyObject {
     func updateFeedData()
 }
 
@@ -18,21 +18,17 @@ class HomeViewModel {
     var episodeItems: [Episode]?
     private var feedParser: FeedParser?
     
-    weak var delegate: ParseFeedDelegate?
+    weak var delegate: UpdateParserDataDelegate?
     
     // MARK: - Initializer
     init(feedParser: FeedParser = FeedParser()) {
         self.feedParser = feedParser
+        feedParser.delegate = self
     }
     
     // MARK: - Function
     func parseFeed() {
-        feedParser?.parseFeed(feedUrl: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss") { [weak self] (podcast, episodeItems) in
-            guard let self = self else { return }
-            self.podcast = podcast
-            self.episodeItems = self.covertFormatInEpisodeItems(episodeItems)
-            self.delegate?.updateFeedData()
-        }
+        feedParser?.parseFeed(feedUrl: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")
     }
     
     // MARK: - Private Function
@@ -58,4 +54,16 @@ class HomeViewModel {
         return dateFormatter.string(from: dateObj)
     }
     
+}
+
+extension HomeViewModel: FeedParserResultDelegate {
+    func successParsedResult(_ podcast: Podcast, _ episodeItems: [Episode]) {
+        self.podcast = podcast
+        self.episodeItems = covertFormatInEpisodeItems(episodeItems)
+        delegate?.updateFeedData()
+    }
+    
+    func failedParsed(_ error: Error) {
+        print(error.localizedDescription)
+    }
 }

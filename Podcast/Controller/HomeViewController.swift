@@ -79,8 +79,8 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - ParseFeedDelegate
-extension HomeViewController: ParseFeedDelegate {
+// MARK: - UpdateParserDataDelegate
+extension HomeViewController: UpdateParserDataDelegate {
     func updateFeedData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
