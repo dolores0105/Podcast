@@ -77,6 +77,7 @@ class HomeTableViewCell: UITableViewCell {
         }
     }
     
+    // MARK: - Prepare for Reuse
     override func prepareForReuse() {
         super.prepareForReuse()
         epImageView.cancelDownload()

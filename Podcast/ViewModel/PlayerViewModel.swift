@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-protocol PodcastPlayerProtocol: AnyObject {
+protocol PodcastPlayerDelegate: AnyObject {
     func updateCurrentPlayingProgess(_ value: Float)
     func updateCurrentEpDetails(title: String, imgUrlString: String)
     func updateState(_ playing: Bool)
@@ -18,23 +18,22 @@ class PlayerViewModel {
     var episodeItems: [Episode] = []
     var currentEpIndex: Int = 0
     
-    var podcastPlayer: AVPlayer?
-    var currentItem: AVPlayerItem? {
+    private var podcastPlayer: AVPlayer?
+    private var currentItem: AVPlayerItem? {
         return podcastPlayer?.currentItem
     }
-    var currentItemDuration: CMTime? {
+    private var currentItemDuration: CMTime? {
         return currentItem?.duration
     }
     
     private var timeObserverToken: Any?
-    weak var delegate: PodcastPlayerProtocol?
+    weak var delegate: PodcastPlayerDelegate?
     
     // MARK: - Initializer
     init(episodeItems: [Episode], currentEpIndex: Int) {
         self.episodeItems = episodeItems
         self.currentEpIndex = currentEpIndex
         setupPlayer()
-        
     }
     
     deinit {
@@ -53,16 +52,15 @@ class PlayerViewModel {
             podcastPlayer?.pause()
             buttonIsSelected = false
         }
+        delegate?.updateState(buttonIsSelected)
         return buttonIsSelected
     }
     
     func progressBarTouchEnd(sliderValue: Float) {
-        guard let player = podcastPlayer,
-              let duration = self.currentItemDuration else { return }
-        let newCurrentTime: TimeInterval = Double(sliderValue) * CMTimeGetSeconds(duration)
-        let seekToTime: CMTime = CMTimeMakeWithSeconds(newCurrentTime, preferredTimescale: 600)
-        player.seek(to: seekToTime)
+        let seekToTime = convertValueToTime(sliderValue)
+        playerSeekTo(seekToTime)
         updatePlayingProgress(time: seekToTime)
+        setPlayState(true)
     }
     
     func playNextTrack() {
@@ -103,8 +101,18 @@ class PlayerViewModel {
             self.podcastPlayer?.replaceCurrentItem(with: playerItem)
             self.observeItemPlayEnd(currentPlayerItem: playerItem)
             self.setPlayState(true)
-            self.delegate?.updateState(true)
         }
+    }
+    
+    private func convertValueToTime(_ sliderValue: Float) -> CMTime {
+        guard let duration = currentItemDuration else { return CMTime.zero }
+        let newCurrentTime: TimeInterval = Double(sliderValue) * CMTimeGetSeconds(duration)
+        return CMTimeMakeWithSeconds(newCurrentTime, preferredTimescale: 600)
+    }
+    
+    private func playerSeekTo(_ time: CMTime) {
+        guard let player = podcastPlayer else { return }
+        player.seek(to: time)
     }
     
     private func updatePlayingProgress(time: CMTime) {

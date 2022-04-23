@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol ParseFeedDelegate: AnyObject {
+protocol UpdateParserDataDelegate: AnyObject {
     func updateFeedData()
 }
 
@@ -17,22 +17,19 @@ class HomeViewModel {
     var podcast: Podcast?
     var episodeItems: [Episode]?
     private var feedParser: FeedParser?
+    private let feedUrlString: String = "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss"
     
-    weak var delegate: ParseFeedDelegate?
+    weak var delegate: UpdateParserDataDelegate?
     
     // MARK: - Initializer
     init(feedParser: FeedParser = FeedParser()) {
         self.feedParser = feedParser
+        feedParser.delegate = self
     }
     
     // MARK: - Function
     func parseFeed() {
-        feedParser?.parseFeed(feedUrl: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss") { [weak self] (podcast, episodeItems) in
-            guard let self = self else { return }
-            self.podcast = podcast
-            self.episodeItems = self.covertFormatInEpisodeItems(episodeItems)
-            self.delegate?.updateFeedData()
-        }
+        feedParser?.parseFeed(feedUrlString: feedUrlString)
     }
     
     // MARK: - Private Function
@@ -51,11 +48,23 @@ class HomeViewModel {
         let string = String(dateString.dropLast(15))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE, d MMM yyyy"
-        dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
         guard let dateObj = dateFormatter.date(from: string) else { return dateString }
         
         dateFormatter.dateFormat = "yyyy/MM/dd"
         return dateFormatter.string(from: dateObj)
     }
     
+}
+
+extension HomeViewModel: FeedParserResultDelegate {
+    func successParsedResult(_ podcast: Podcast, _ episodeItems: [Episode]) {
+        self.podcast = podcast
+        self.episodeItems = covertFormatInEpisodeItems(episodeItems)
+        delegate?.updateFeedData()
+    }
+    
+    func failedParsed(_ error: Error) {
+        print(error.localizedDescription)
+    }
 }

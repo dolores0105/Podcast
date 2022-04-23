@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol FeedParserResultDelegate: AnyObject {
+    func successParsedResult(_ podcast: Podcast, _ episodeItems: [Episode])
+    func failedParsed(_ error: Error)
+}
+
 class FeedParser: NSObject {
     enum RssTag: String {
         case item = "item"
@@ -42,13 +47,10 @@ class FeedParser: NSObject {
     private var currentEpAudioUrl: String = ""
     private var currentEpImage: String = ""
     
-    private var parserCompletionHandler: ((_ podcast: Podcast, _ episodeItems: [Episode]) -> Void)?
+    weak var delegate: FeedParserResultDelegate?
     
-    func parseFeed(feedUrl: String, completionHandler: ((_ podcast: Podcast, _ episodeItems: [Episode]) -> Void)?) -> Void {
-        
-        self.parserCompletionHandler = completionHandler
-        
-        guard let feedUrl = URL(string: feedUrl) else { return }
+    func parseFeed(feedUrlString: String) {
+        guard let feedUrl = URL(string: feedUrlString) else { return }
         let request = URLRequest(url: feedUrl)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else {
@@ -134,10 +136,10 @@ extension FeedParser: XMLParserDelegate {
     
     func parserDidEndDocument(_ parser: XMLParser) {
         guard let podcast = podcast else { return }
-        parserCompletionHandler?(podcast, episodeItems)
+        delegate?.successParsedResult(podcast, episodeItems)
     }
     
     func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
-        print(parseError.localizedDescription)
+        delegate?.failedParsed(parseError)
     }
 }
