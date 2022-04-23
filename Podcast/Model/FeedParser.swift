@@ -127,8 +127,8 @@ extension FeedParser: XMLParserDelegate {
                let pubDateIndex = currentEpPubDate.range(of: "\n")?.lowerBound {
                 let puredEpTitle = String(currentEpTitle[..<titleIndex])
                 let puredEpPubDate = String(currentEpPubDate[..<pubDateIndex])
-                podcast = Podcast(podcastTitle: podcastTitle, podcastImgString: podcastImageString)
-                let episodeItem = Episode(epTitle: puredEpTitle, epImgString: currentEpImage, pubDate: puredEpPubDate, description: currentEpDescription, audioUrl: currentEpAudioUrl)
+                podcast = Podcast(podcastTitle: podcastTitle, initWithPodcastImgString: podcastImageString)
+                let episodeItem = Episode(epTitle: puredEpTitle, initWithEpImgString: currentEpImage, initWithPubDate: puredEpPubDate, initWithEpDescription: currentEpDescription, initWithAudioUrl: currentEpAudioUrl)
                 episodeItems.append(episodeItem)
             }
         }

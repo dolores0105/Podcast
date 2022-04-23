@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3917255C2813D09B00EDAAC1 /* RssParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 3917255B2813D09B00EDAAC1 /* RssParser.m */; };
+		391725662813DFA100EDAAC1 /* Podcast.m in Sources */ = {isa = PBXBuildFile; fileRef = 391725652813DFA100EDAAC1 /* Podcast.m */; };
+		3917256D2813E39800EDAAC1 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = 3917256C2813E39800EDAAC1 /* Episode.m */; };
 		397C14B2280BF36200D48E9D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C14B1280BF36200D48E9D /* AppDelegate.swift */; };
 		397C14B4280BF36200D48E9D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C14B3280BF36200D48E9D /* SceneDelegate.swift */; };
 		397C14B6280BF36200D48E9D /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 397C14B5280BF36200D48E9D /* HomeViewController.swift */; };
@@ -28,6 +31,13 @@
 
 /* Begin PBXFileReference section */
 		131D87ACFB704A868D0660F4 /* Pods_Podcast.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Podcast.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3917255A2813D09B00EDAAC1 /* RssParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RssParser.h; sourceTree = "<group>"; };
+		3917255B2813D09B00EDAAC1 /* RssParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RssParser.m; sourceTree = "<group>"; };
+		391725632813D26A00EDAAC1 /* Podcast-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Podcast-Bridging-Header.h"; sourceTree = "<group>"; };
+		391725642813DFA100EDAAC1 /* Podcast.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Podcast.h; sourceTree = "<group>"; };
+		391725652813DFA100EDAAC1 /* Podcast.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Podcast.m; sourceTree = "<group>"; };
+		3917256B2813E39800EDAAC1 /* Episode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Episode.h; sourceTree = "<group>"; };
+		3917256C2813E39800EDAAC1 /* Episode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Episode.m; sourceTree = "<group>"; };
 		397C14AE280BF36200D48E9D /* Podcast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Podcast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		397C14B1280BF36200D48E9D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		397C14B3280BF36200D48E9D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +132,13 @@
 			children = (
 				397C14CA280C08C300D48E9D /* FeedParser.swift */,
 				397C14CC280C09CA00D48E9D /* DataStructure.swift */,
+				3917255A2813D09B00EDAAC1 /* RssParser.h */,
+				3917255B2813D09B00EDAAC1 /* RssParser.m */,
+				391725642813DFA100EDAAC1 /* Podcast.h */,
+				391725652813DFA100EDAAC1 /* Podcast.m */,
+				3917256B2813E39800EDAAC1 /* Episode.h */,
+				3917256C2813E39800EDAAC1 /* Episode.m */,
+				391725632813D26A00EDAAC1 /* Podcast-Bridging-Header.h */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -211,6 +228,7 @@
 				TargetAttributes = {
 					397C14AD280BF36200D48E9D = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
 				};
 			};
@@ -292,6 +310,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				391725662813DFA100EDAAC1 /* Podcast.m in Sources */,
 				397C14CB280C08C300D48E9D /* FeedParser.swift in Sources */,
 				397C1512280E680800D48E9D /* HomeViewModel.swift in Sources */,
 				397C1514280EB50400D48E9D /* HomeTableViewCell.swift in Sources */,
@@ -304,7 +323,9 @@
 				397C14CD280C09CA00D48E9D /* DataStructure.swift in Sources */,
 				397C14B2280BF36200D48E9D /* AppDelegate.swift in Sources */,
 				397C1517280EB6EA00D48E9D /* UIFont+Extension.swift in Sources */,
+				3917256D2813E39800EDAAC1 /* Episode.m in Sources */,
 				397C14B4280BF36200D48E9D /* SceneDelegate.swift in Sources */,
+				3917255C2813D09B00EDAAC1 /* RssParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,6 +473,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H9XHH8AA7H;
@@ -470,6 +492,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dolores.Podcast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Podcast/Model/Podcast-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -481,6 +505,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = H9XHH8AA7H;
@@ -499,6 +524,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = dolores.Podcast;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Podcast/Model/Podcast-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

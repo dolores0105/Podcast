@@ -7,15 +7,28 @@
 
 import Foundation
 
-struct Podcast {
-    let podcastTitle: String
-    let podcastImgString: String
-}
+//class Podcast {
+//    let podcastTitle: String
+//    let podcastImgString: String
+//    
+//    init(podcastTitle: String, podcastImgString: String) {
+//        self.podcastTitle = podcastTitle
+//        self.podcastImgString = podcastImgString
+//    }
+//}
 
-struct Episode {
-    let epTitle: String
-    let epImgString: String
-    let pubDate: String
-    let description: String
-    let audioUrl: String
-}
+//class Episode {
+//    let epTitle: String
+//    let epImgString: String
+//    let pubDate: String
+//    let epDescription: String
+//    let audioUrl: String
+//    
+//    init(epTitle: String, epImgString: String, pubDate: String, description: String, audioUrl: String) {
+//        self.epTitle = epTitle
+//        self.epImgString = epImgString
+//        self.pubDate = pubDate
+//        self.epDescription = description
+//        self.audioUrl = audioUrl
+//    }
+//}

@@ -36,10 +36,10 @@ class HomeViewModel {
     private func covertFormatInEpisodeItems(_ episodeItems: [Episode]) -> [Episode] {
         return episodeItems.map {
             Episode(epTitle: $0.epTitle,
-                    epImgString: $0.epImgString,
-                    pubDate: covertDateFormat($0.pubDate),
-                    description: $0.description,
-                    audioUrl: $0.audioUrl)
+                    initWithEpImgString: $0.epImgString,
+                    initWithPubDate: covertDateFormat($0.pubDate),
+                    initWithEpDescription: $0.epDescription,
+                    initWithAudioUrl: $0.audioUrl)
         }
     }
     
