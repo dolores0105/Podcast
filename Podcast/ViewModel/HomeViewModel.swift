@@ -17,6 +17,7 @@ class HomeViewModel {
     var podcast: Podcast?
     var episodeItems: [Episode]?
     private var feedParser: FeedParser?
+    private let feedUrlString: String = "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss"
     
     weak var delegate: UpdateParserDataDelegate?
     
@@ -28,7 +29,7 @@ class HomeViewModel {
     
     // MARK: - Function
     func parseFeed() {
-        feedParser?.parseFeed(feedUrl: "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss")
+        feedParser?.parseFeed(feedUrlString: feedUrlString)
     }
     
     // MARK: - Private Function
@@ -47,7 +48,7 @@ class HomeViewModel {
         let string = String(dateString.dropLast(15))
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEE, d MMM yyyy"
-        dateFormatter.locale = Locale.init(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone(identifier: "Asia/Taipei")
         guard let dateObj = dateFormatter.date(from: string) else { return dateString }
         
         dateFormatter.dateFormat = "yyyy/MM/dd"

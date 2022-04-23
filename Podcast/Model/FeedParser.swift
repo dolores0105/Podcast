@@ -49,8 +49,8 @@ class FeedParser: NSObject {
     
     weak var delegate: FeedParserResultDelegate?
     
-    func parseFeed(feedUrl: String) {
-        guard let feedUrl = URL(string: feedUrl) else { return }
+    func parseFeed(feedUrlString: String) {
+        guard let feedUrl = URL(string: feedUrlString) else { return }
         let request = URLRequest(url: feedUrl)
         let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
             guard let data = data else {

@@ -10,96 +10,6 @@ import SnapKit
 import SwiftUI
 
 class PlayerViewController: UIViewController {
-    
-    // MARK: - Property
-    var viewModel: PlayerViewModel?
-    
-    // MARK: - Initializer
-    convenience init(viewModel: PlayerViewModel) {
-        self.init()
-        self.viewModel = viewModel
-    }
-    
-    // MARK: - Life Cycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        configViews()
-        loadDetails()
-        viewModel?.delegate = self
-    }
-    
-    // MARK: - Target Action
-    @objc func handleProgressBarTouchBegan(_ sender: UISlider) {
-        guard let viewModel = viewModel else { return }
-        playPauseButton.isSelected = viewModel.setPlayState(false)
-    }
-    
-    @objc func handleProgressBarTouchEnd(_ sender: UISlider) {
-        guard let viewModel = viewModel else { return }
-        playPauseButton.isSelected = viewModel.setPlayState(true)
-        viewModel.progressBarTouchEnd(sliderValue: sender.value)
-    }
-    
-    @objc func handleProgressBarValueChanged(_ sender: UISlider) {
-        guard let viewModel = viewModel else { return }
-        playPauseButton.isSelected = viewModel.setPlayState(false)
-    }
-    
-    @objc func togglePlayPause(_ sender: UIButton) {
-        guard let viewModel = viewModel else { return }
-        sender.isSelected.toggle()
-        playPauseButton.isSelected = viewModel.setPlayState(sender.isSelected)
-    }
-    
-    @objc func tapNextTrack(_ sender: UIButton) {
-        guard let viewModel = viewModel else { return }
-        viewModel.playNextTrack()
-    }
-    
-    @objc func tapPreviousTrack(_ sender: UIButton) {
-        guard let viewModel = viewModel else { return }
-        viewModel.playPreviousTrack()
-    }
-    
-    // MARK: - Private Function
-    private func loadDetails() {
-        guard let viewModel = viewModel else { return }
-        episodeImageView.loadImage(viewModel.episodeItems[viewModel.currentEpIndex].epImgString)
-        epTitleLabel.text = viewModel.episodeItems[viewModel.currentEpIndex].epTitle
-        playPauseButton.isSelected = viewModel.setPlayState(true)
-    }
-    
-    private func configViews() {
-        view.addSubview(episodeImageView)
-        episodeImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
-            make.left.right.equalToSuperview().inset(12)
-            make.height.equalTo(episodeImageView.snp.width)
-        }
-        
-        view.addSubview(epTitleLabel)
-        epTitleLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(episodeImageView.snp.bottom).offset(24)
-            make.left.right.equalToSuperview().inset(12)
-        }
-        
-        view.addSubview(stackView)
-        stackView.addArrangedSubview(previousTrackButton)
-        stackView.addArrangedSubview(playPauseButton)
-        stackView.addArrangedSubview(nextTrackButton)
-        stackView.snp.makeConstraints { (make) in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
-            make.left.right.equalToSuperview().inset(12)
-        }
-        
-        view.addSubview(progressBar)
-        progressBar.snp.makeConstraints { (make) in
-            make.left.right.equalToSuperview().inset(12)
-            make.bottom.equalTo(stackView.snp.top).offset(-10)
-        }
-    }
-    
     // MARK: - UI
     private lazy var episodeImageView: UIImageView = {
         let imgView = UIImageView()
@@ -168,6 +78,94 @@ class PlayerViewController: UIViewController {
         stackView.distribution = .fillProportionally
         return stackView
     }()
+
+    // MARK: - Property
+    private var viewModel: PlayerViewModel?
+    
+    // MARK: - Initializer
+    convenience init(viewModel: PlayerViewModel) {
+        self.init()
+        self.viewModel = viewModel
+    }
+    
+    // MARK: - Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        configViews()
+        loadDetails()
+        viewModel?.delegate = self
+    }
+    
+    // MARK: - Target Action
+    @objc private func handleProgressBarTouchBegan(_ sender: UISlider) {
+        guard let viewModel = viewModel else { return }
+        viewModel.setPlayState(false)
+    }
+    
+    @objc private func handleProgressBarTouchEnd(_ sender: UISlider) {
+        guard let viewModel = viewModel else { return }
+        viewModel.progressBarTouchEnd(sliderValue: sender.value)
+    }
+    
+    @objc private func handleProgressBarValueChanged(_ sender: UISlider) {
+        guard let viewModel = viewModel else { return }
+        viewModel.setPlayState(false)
+    }
+    
+    @objc private func togglePlayPause(_ sender: UIButton) {
+        guard let viewModel = viewModel else { return }
+        sender.isSelected.toggle()
+        viewModel.setPlayState(sender.isSelected)
+    }
+    
+    @objc private func tapNextTrack(_ sender: UIButton) {
+        guard let viewModel = viewModel else { return }
+        viewModel.playNextTrack()
+    }
+    
+    @objc private func tapPreviousTrack(_ sender: UIButton) {
+        guard let viewModel = viewModel else { return }
+        viewModel.playPreviousTrack()
+    }
+    
+    // MARK: - Private Function
+    private func loadDetails() {
+        guard let viewModel = viewModel else { return }
+        episodeImageView.loadImage(viewModel.episodeItems[viewModel.currentEpIndex].epImgString)
+        epTitleLabel.text = viewModel.episodeItems[viewModel.currentEpIndex].epTitle
+        playPauseButton.isSelected = viewModel.setPlayState(true)
+    }
+    
+    private func configViews() {
+        view.addSubview(episodeImageView)
+        episodeImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
+            make.left.right.equalToSuperview().inset(12)
+            make.height.equalTo(episodeImageView.snp.width)
+        }
+        
+        view.addSubview(epTitleLabel)
+        epTitleLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(episodeImageView.snp.bottom).offset(24)
+            make.left.right.equalToSuperview().inset(12)
+        }
+        
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(previousTrackButton)
+        stackView.addArrangedSubview(playPauseButton)
+        stackView.addArrangedSubview(nextTrackButton)
+        stackView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
+            make.left.right.equalToSuperview().inset(12)
+        }
+        
+        view.addSubview(progressBar)
+        progressBar.snp.makeConstraints { (make) in
+            make.left.right.equalToSuperview().inset(12)
+            make.bottom.equalTo(stackView.snp.top).offset(-10)
+        }
+    }
 }
 
 // MARK: - PodcastPlayerDelegate

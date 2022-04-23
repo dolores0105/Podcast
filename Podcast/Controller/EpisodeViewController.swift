@@ -142,7 +142,12 @@ class EpisodeViewController: UIViewController {
     
     //MARK: - Target Action
     @objc func tapPlay(_ sender: UIButton) {
-        let playerVC = PlayerViewController(viewModel: .init(episodeItems: viewModel?.episodeItems ?? [], currentEpIndex: viewModel?.episodeIndex ?? 0))
+        guard let viewModel = viewModel,
+              let episodeItems = viewModel.episodeItems,
+              let episodeIndex = viewModel.episodeIndex else {
+            return
+        }
+        let playerVC = PlayerViewController(viewModel: .init(episodeItems: episodeItems, currentEpIndex: episodeIndex))
         navigationController?.pushViewController(playerVC, animated: true)
     }
 }

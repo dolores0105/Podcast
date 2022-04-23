@@ -8,9 +8,6 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    // MARK: - Property
-    private var viewModel: HomeViewModel = HomeViewModel()
-    
     // MARK: - UI
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
@@ -21,6 +18,9 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         return tableView
     }()
+    
+    // MARK: - Property
+    var viewModel: HomeViewModel = HomeViewModel()
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
