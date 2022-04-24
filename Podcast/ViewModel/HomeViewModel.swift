@@ -12,34 +12,34 @@ protocol UpdateParserDataDelegate: AnyObject {
     func updateFeedData()
 }
 
-class HomeViewModel {
+class HomeViewModel: NSObject {
     // MARK: - Properties
     var podcast: Podcast?
     var episodeItems: [Episode]?
-    private var feedParser: FeedParser?
+    private var rssParser: RssParser = RssParser()
     private let feedUrlString: String = "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss"
     
     weak var delegate: UpdateParserDataDelegate?
     
     // MARK: - Initializer
-    init(feedParser: FeedParser = FeedParser()) {
-        self.feedParser = feedParser
-        feedParser.delegate = self
+    override init() {
+        super.init()
+        rssParser.delegate = self
     }
     
     // MARK: - Function
     func parseFeed() {
-        feedParser?.parseFeed(feedUrlString: feedUrlString)
+        rssParser.parseFeed(feedUrlString)
     }
     
     // MARK: - Private Function
     private func covertFormatInEpisodeItems(_ episodeItems: [Episode]) -> [Episode] {
         return episodeItems.map {
             Episode(epTitle: $0.epTitle,
-                    epImgString: $0.epImgString,
-                    pubDate: covertDateFormat($0.pubDate),
-                    description: $0.description,
-                    audioUrl: $0.audioUrl)
+                    initWithEpImgString: $0.epImgString,
+                    initWithPubDate: covertDateFormat($0.pubDate),
+                    initWithEpDescription: $0.epDescription,
+                    initWithAudioUrl: $0.audioUrl)
         }
     }
     
@@ -57,8 +57,8 @@ class HomeViewModel {
     
 }
 
-extension HomeViewModel: FeedParserResultDelegate {
-    func successParsedResult(_ podcast: Podcast, _ episodeItems: [Episode]) {
+extension HomeViewModel: RssParserDelegate {
+    func successParsedResult(_ podcast: Podcast, episodeItems: [Episode]) {
         self.podcast = podcast
         self.episodeItems = covertFormatInEpisodeItems(episodeItems)
         delegate?.updateFeedData()

@@ -90,7 +90,7 @@ class EpisodeViewController: UIViewController {
         episodeImageView.loadImage(episodeItems[episodeIndex].epImgString)
         podcastTitleLabel.text = viewModel.podcastTitle
         episodeTitleLabel.text = episodeItems[episodeIndex].epTitle
-        descriptionTextView.text = episodeItems[episodeIndex].description
+        descriptionTextView.text = episodeItems[episodeIndex].epDescription
     }
     
     private func configViews() {
