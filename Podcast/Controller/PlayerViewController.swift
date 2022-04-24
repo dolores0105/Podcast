@@ -86,15 +86,25 @@ class PlayerViewController: UIViewController {
     convenience init(viewModel: PlayerViewModel) {
         self.init()
         self.viewModel = viewModel
+        viewModel.delegate = self
     }
     
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configViews()
         loadDetails()
-        viewModel?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: - Target Action
