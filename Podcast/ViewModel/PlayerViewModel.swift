@@ -125,7 +125,11 @@ class PlayerViewModel {
     }
     
     @objc private func didPlaybackEnd() {
-        playNextTrack()
+        if currentEpIndex <= 0 {
+           setPlayState(false)
+        } else {
+            playNextTrack()
+        }
     }
     
     private func deinitPlayer() {
