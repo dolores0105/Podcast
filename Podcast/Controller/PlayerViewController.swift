@@ -93,13 +93,13 @@ class PlayerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        loadDetails()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         configViews()
-        loadDetails()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

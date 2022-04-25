@@ -25,14 +25,14 @@ class HomeViewController: UIViewController {
     // MARK: - Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.parseFeed()
+        viewModel.delegate = self
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configTableView()
-        viewModel.parseFeed()
-        viewModel.delegate = self
         navigationController?.interactivePopGestureRecognizer?.delegate = self
     }
     
@@ -87,9 +87,9 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UpdateParserDataDelegate
-extension HomeViewController: UpdateParserDataDelegate {
-    func updateFeedData() {
+// MARK: - HomeViewModelDelegate
+extension HomeViewController: HomeViewModelDelegate {
+    func reloadParserData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
