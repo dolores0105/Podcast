@@ -16,6 +16,7 @@ class HomeViewModel: NSObject {
     // MARK: - Properties
     var podcast: Podcast?
     var episodeItems: [Episode]?
+    var convertedEpisodeItems: [Episode] = []
     private var rssParser: RssParser = RssParser()
     private let feedUrlString: String = "https://feeds.soundcloud.com/users/soundcloud:users:322164009/sounds.rss"
     
@@ -60,7 +61,10 @@ class HomeViewModel: NSObject {
 extension HomeViewModel: RssParserDelegate {
     func successParsedResult(_ podcast: Podcast, episodeItems: [Episode]) {
         self.podcast = podcast
-        self.episodeItems = covertFormatInEpisodeItems(episodeItems)
+        self.episodeItems = episodeItems
+        if let unwrapEpisodeItems = self.episodeItems {
+            self.convertedEpisodeItems = covertFormatInEpisodeItems(unwrapEpisodeItems)
+        }
         delegate?.updateFeedData()
     }
     
