@@ -15,6 +15,7 @@ protocol PodcastPlayerDelegate: AnyObject {
 }
 
 class PlayerViewModel {
+    // MARK: - Properties
     var episodeItems: [Episode] = []
     var currentEpIndex: Int = 0
     
@@ -42,6 +43,8 @@ class PlayerViewModel {
     }
     
     // MARK: - Function
+    /* The playing state has only 2 conditions: 'play' and 'pause', and these two could not exist at the same time.
+     Moreover, each condition corresponds to the specific image of the playPauseButton, and the selected state of UIButton, e.g. if the condition is 'play', image of button represents 'pause.circle', and 'isSelected' property is 'true'. Thus, I designed this mechanism to deal with this dichotomic situation. */
     @discardableResult
     func setPlayState(_ playing: Bool) -> Bool {
         var buttonIsSelected: Bool
@@ -56,6 +59,7 @@ class PlayerViewModel {
         return buttonIsSelected
     }
     
+    /* When user slides the seek bar, the interactions including changing the playing progress of audio, changing the value of seek bar and playing audio.*/
     func progressBarTouchEnd(sliderValue: Float) {
         let seekToTime = convertValueToTime(sliderValue)
         playerSeekTo(seekToTime)
@@ -63,6 +67,7 @@ class PlayerViewModel {
         setPlayState(true)
     }
     
+    /* When user tapped next track, update current playing episode index and play the correspondent episode. */
     func playNextTrack() {
         if currentEpIndex > 0 {
             currentEpIndex -= 1
@@ -70,6 +75,7 @@ class PlayerViewModel {
         }
     }
     
+    /* When user tapped previous track, update current playing episode index and play the correspondent episode. */
     func playPreviousTrack() {
         if episodeItems.count - 1 > currentEpIndex {
             currentEpIndex += 1
@@ -78,6 +84,7 @@ class PlayerViewModel {
     }
     
     // MARK: - Private Function
+    /* Set up local avPlayer and observers */
     private func setupPlayer() {
         guard let currentAudioUrl = URL(string: episodeItems[currentEpIndex].audioUrl) else { return }
         podcastPlayer = AVPlayer(url: currentAudioUrl)
@@ -86,6 +93,7 @@ class PlayerViewModel {
         observeItemPlayEnd(currentPlayerItem: currentItem)
     }
     
+    /* Proceed to play next/previous track of episode, and notify the details of current playing episode to view. */
     private func proceedToEpisode(index: Int) {
         let epTitle = episodeItems[index].epTitle
         let epImgString = episodeItems[index].epImgString
@@ -94,6 +102,7 @@ class PlayerViewModel {
         replaceCurrentPlayerItem(urlString: audioUrl)
     }
     
+    /* Play another episode. */
     private func replaceCurrentPlayerItem(urlString: String) {
         guard let url = URL(string: urlString) else { return }
         let playerItem = AVPlayerItem(url: url)
@@ -104,17 +113,20 @@ class PlayerViewModel {
         }
     }
     
+    /* Convert the slide value to time */
     private func convertValueToTime(_ sliderValue: Float) -> CMTime {
         guard let duration = currentItemDuration else { return CMTime.zero }
         let newCurrentTime: TimeInterval = Double(sliderValue) * CMTimeGetSeconds(duration)
         return CMTimeMakeWithSeconds(newCurrentTime, preferredTimescale: 600)
     }
     
+    /* Play the episode at a specific time */
     private func playerSeekTo(_ time: CMTime) {
         guard let player = podcastPlayer else { return }
         player.seek(to: time)
     }
     
+    /* Calculate the playing progress, and notify to view */
     private func updatePlayingProgress(time: CMTime) {
         guard let currentItem = currentItem else { return }
         let currentTime: CMTime = currentItem.currentTime()
@@ -124,10 +136,16 @@ class PlayerViewModel {
         delegate?.updateCurrentPlayingProgess(playProgress)
     }
     
+    /* When observing the episode is end, play next track, or pause. */
     @objc private func didPlaybackEnd() {
-        playNextTrack()
+        if currentEpIndex <= 0 {
+           setPlayState(false)
+        } else {
+            playNextTrack()
+        }
     }
     
+    /* Deinit player and remove observer */
     private func deinitPlayer() {
         podcastPlayer = nil
         timeObserverToken = nil

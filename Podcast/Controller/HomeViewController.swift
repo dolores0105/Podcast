@@ -23,11 +23,22 @@ class HomeViewController: UIViewController {
     var viewModel: HomeViewModel = HomeViewModel()
     
     // MARK: - Life Cycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.parseFeed()
+        viewModel.delegate = self
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configTableView()
-        viewModel.parseFeed()
-        viewModel.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     // MARK: - Private Function
@@ -42,15 +53,12 @@ class HomeViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let episodeItems = viewModel.episodeItems else { return 0 }
-        return episodeItems.count
+        return viewModel.convertedEpisodeItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell") as? HomeTableViewCell,
-              let episodesItem = viewModel.episodeItems?[indexPath.row] else {
-                  return UITableViewCell()
-              }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "HomeTableViewCell") as? HomeTableViewCell else { return UITableViewCell() }
+        let episodesItem = viewModel.convertedEpisodeItems[indexPath.row]
         cell.selectionStyle = .none
         cell.reloadCell(imgString: episodesItem.epImgString, title: episodesItem.epTitle, pubDate: episodesItem.pubDate)
         return cell
@@ -74,16 +82,26 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let episodeVC = EpisodeViewController(viewModel: .init(podcastTitle: viewModel.podcast?.podcastTitle, episodeItems: viewModel.episodeItems, episodeIndex: Int(indexPath.row)))
+        let episodeVC = EpisodeViewController(viewModel: .init(podcastTitle: viewModel.podcast?.podcastTitle, episodeItems: viewModel.convertedEpisodeItems, episodeIndex: Int(indexPath.row)))
         navigationController?.pushViewController(episodeVC, animated: true)
     }
 }
 
-// MARK: - UpdateParserDataDelegate
-extension HomeViewController: UpdateParserDataDelegate {
-    func updateFeedData() {
+// MARK: - HomeViewModelDelegate
+extension HomeViewController: HomeViewModelDelegate {
+    func reloadParserData() {
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
+    }
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension HomeViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let navVc = navigationController {
+            return navVc.viewControllers.count > 1
+        }
+        return false
     }
 }
