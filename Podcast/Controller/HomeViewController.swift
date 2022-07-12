@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         configTableView()
         navigationController?.interactivePopGestureRecognizer?.delegate = self
-		///
+		////
     }
     
     override func viewWillDisappear(_ animated: Bool) {
